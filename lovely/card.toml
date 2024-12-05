@@ -1,0 +1,21 @@
+[manifest]
+version = "1.0.0"
+priority = 0
+
+
+
+# Inject one or more lines of code before, after, or at (replacing) a line which matches 
+# the provided pattern.
+#
+# USEFUL: For when you need to add / modify a small amount of code to setup initialization 
+# routines, etc.
+[[patches]]
+[patches.pattern]
+target = "card.lua"
+pattern = "nominal_chips = self.base.nominal > 0 and self.base.nominal or nil,"
+position = "at"
+payload = '''
+nominal_chips = self.ability.perma_bonus < 0 and (self.base.nominal + self.ability.perma_bonus) or self.base.nominal, 
+'''
+match_indent = false
+times = 1
