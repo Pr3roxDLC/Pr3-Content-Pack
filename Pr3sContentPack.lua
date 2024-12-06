@@ -283,7 +283,7 @@ SMODS.Joker {
   config = { extra = { x_mult = 10 } },
   rarity = 2,
   atlas = 'jokers',
-  pos = { x = 4, y = 0 },
+  pos = { x = 2, y = 0 },
   cost = 6,
   loc_vars = function(self, info_queue, card)
     return { vars = { card.ability.extra.x_mult } }
@@ -305,7 +305,7 @@ SMODS.Joker {
       for i, card_in_deck in pairs(G.playing_cards) do
         card_in_deck.ability.extra = {the_one_card = false}
       end
-      local the_one_card = pseudorandom_element(G.playing_cards, pseudoseed('toc'..G.GAME.round_resets.ante));
+      local the_one_card = pseudorandom_element(G.playing_cards, pseudoseed('pr3'..G.GAME.round_resets.ante));
       if the_one_card ~= nil then
         the_one_card.ability.extra.the_one_card = true;
       end
@@ -313,6 +313,43 @@ SMODS.Joker {
 
   end
 }
+
+
+SMODS.Joker {
+  key = 'the_gambling_man',
+  loc_txt = {
+    name = 'The Gambling Man',
+    text = {
+      "For each card scored,",
+      "lose {C:attention}#1#${}, if hand",
+      "defeats blind, gain back",
+      "{C:attention}#2#X{} the money paid"
+    }
+  },
+  discovered = true,
+  config = { extra = { cost = 1, multiplier = 2, stored = 0} },
+  rarity = 2,
+  atlas = 'jokers',
+  pos = { x = 3, y = 0 },
+  cost = 6,
+  loc_vars = function(self, info_queue, card)
+    return { vars = { card.ability.extra.cost, card.ability.extra.multiplier } }
+  end,
+  calculate = function(self, card, context)
+    if context.before then
+      card.ability.extra.stored = 0;
+    end
+    if context.individual and context.cardarea == G.play then
+      card.ability.extra.stored = card.ability.extra.stored + card.ability.extra.cost;
+      ease_dollars(-card.ability.extra.cost);
+    end
+  end,
+  calc_dollar_bonus = function(self, card)
+    local bonus = card.ability.extra.stored * card.ability.extra.multiplier;
+    if bonus > 0 then return bonus end
+  end
+}
+
 -- One Card Army
 SMODS.Joker {
   key = 'one_card_army',

@@ -25,7 +25,7 @@ config = {
     max_highlighted = 1,
 },
 loc_txt = {
-    name = 'Honk',
+    name = 'Polution',
     text = {
         "Select {C:attention}#1#{} card to",
         "apply {C:attention}Green Seal{}"

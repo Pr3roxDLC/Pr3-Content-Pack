@@ -18,7 +18,7 @@ SMODS.Atlas {
 SMODS.Seal {
     name = "green_seal",
     key = "green",
-    badge_colour = HEX("1d4fd7"),
+    badge_colour = HEX("53E049"),
     config = {},
     loc_txt = {
         name = 'Green Seal',
